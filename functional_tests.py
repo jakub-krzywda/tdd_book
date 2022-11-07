@@ -34,9 +34,16 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(row.text == '1: Raise taxes' for row in rows), "New to-do item did not appear in table")
+        self.assertIn('1: Raise taxes', [row.text for row in rows])
         # There is still a text box inviting to enter another to-do list item. He enters
         # "Lie about raising taxes". He hits enter and now page lists both items.
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Lie about raising taxes')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+        self.assertIn('1: Raise taxes', [row.text for row in rows])
+        self.assertIn('2: Lie about raising taxes', [row.text for row in rows])
+
         self.fail('Finish the test!')
         # Mateusz wonders if site will remember his to-do list. He notices that site generated
         # unique url for him. There is some explanatory text to that effect
