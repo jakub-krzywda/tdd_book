@@ -100,7 +100,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotEqual(pinoccios_list_url, jaroslaw_list_url)
 
         # Again there is no sign of Mateusz's list
-        self.browser.get(self.live_server_url)
+        self.browser.get(jaroslaw_list_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Raise taxes', page_text)
         self.assertIn('Fuck around', page_text)
